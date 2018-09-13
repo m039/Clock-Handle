@@ -1,21 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 
 namespace ClockHandle.Desktop
 {
 	/// <summary>
 	/// This is the main type for your game.
 	/// </summary>
-	public class ClockHandleGame : Game
+	public class ClockHandleGame : Game, IGame
 	{
+
+		#region Variables
+
 		GraphicsDeviceManager graphics;
+
 		SpriteBatch spriteBatch;
+
+		HandleAnimationComponent handleAnimationComponent;
+
+		#endregion
 
 		public ClockHandleGame()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
+			handleAnimationComponent = new HandleAnimationComponent(this);
+
+			graphics.PreferredBackBufferWidth = 500;
+			graphics.PreferredBackBufferHeight = 500;
+			graphics.ApplyChanges();
 		}
 
 		/// <summary>
@@ -26,7 +40,11 @@ namespace ClockHandle.Desktop
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+			#region Initialization logic
+
+			handleAnimationComponent.Initialize();
+
+			#endregion
 
 			base.Initialize();
 		}
@@ -62,7 +80,11 @@ namespace ClockHandle.Desktop
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
+			#region Update logic
+
+			handleAnimationComponent.Update(gameTime);
+
+			#endregion
 
 			base.Update(gameTime);
 		}
@@ -73,11 +95,29 @@ namespace ClockHandle.Desktop
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.Black);
 
-			// TODO: Add your drawing code here
+			spriteBatch.Begin();
 
 			base.Draw(gameTime);
+
+			#region Draw logic
+
+			handleAnimationComponent.Draw(gameTime);
+
+			#endregion
+
+			spriteBatch.End();
 		}
+
+		#region IGame
+
+		public SpriteBatch SpriteBatch { get => spriteBatch; }
+
+		public Game MonoGame => this;
+
+		public Rectangle ViewportSize => GraphicsDevice.Viewport.Bounds;
+
+		#endregion
 	}
 }
