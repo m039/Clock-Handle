@@ -28,11 +28,26 @@ namespace ClockHandle
 			}
 		}
 
+		/// todo: move this value into GUI
+		public interface ISettings
+		{
+			int NumberOfLines { get; }
+			float LineSize { get; }
+			float LineOffset { get; }
+		}
+
+		public class DefaultSettings : ISettings
+		{
+			public int NumberOfLines => 60;
+
+			public float LineSize => 10f;
+
+			public float LineOffset => 5f;
+		}
+
 		const float WholeCirlceTime = 2.5f;
 
-		const int NumberOfLines = 10;
-
-		const float DeltaAngle = 7f / 180f * (float)Math.PI; // todo: move this value into GUI
+		readonly float DeltaAngle;
 
 		#region Variables
 
@@ -42,13 +57,22 @@ namespace ClockHandle
 
 		int timesCircled = -1;
 
-		HandleLine[] lines;
+		readonly ISettings settings;
+
+		readonly HandleLine[] lines;
 
 		#endregion
 
-		public HandleAnimationComponent(IGame mainGame) : base(mainGame.MonoGame)
+		public HandleAnimationComponent(IGame mainGame, ISettings settings = null) : base(mainGame.MonoGame)
 		{
 			this.mainGame = mainGame;
+
+			if (settings == null)
+			{
+				this.settings = new DefaultSettings();
+			}
+
+			DeltaAngle = (float)(2 * Math.PI) / this.settings.NumberOfLines;
 
 			// Constructing array of handle lines
 
@@ -80,7 +104,7 @@ namespace ClockHandle
 			{
 				var line = lines[i];
 
-				// Decrease line's timte to live
+				// Decrease line's time to live
 				if (line.elapsedTimeToLive > 0)
 				{
 					line.elapsedTimeToLive -= elapsedSeconds;
@@ -103,8 +127,8 @@ namespace ClockHandle
 
 			var viewportSize = mainGame.ViewportSize;
 			var unitSize = Math.Min(viewportSize.Width, viewportSize.Height) / 80f;
-			var handleSize = unitSize * 10f; // todo: move this value into GUI
-			var handleOffset = unitSize * 5f; // todo: move this value into GUI
+			var handleSize = unitSize * settings.LineSize;
+			var handleOffset = unitSize * settings.LineOffset;
 			var xCenter = viewportSize.Width / 2f;
 			var yCenter = viewportSize.Height / 2f;
 
