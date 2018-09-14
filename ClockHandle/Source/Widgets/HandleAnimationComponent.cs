@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace ClockHandle
+namespace ClockHandle.Widgets
 {
-	public class HandleAnimationComponent : DrawableGameComponent
+	public class HandleAnimationComponent : WidgetComponent
 	{
 
 		struct HandleLine
@@ -51,8 +51,6 @@ namespace ClockHandle
 
 		const int MaxHandleLines = 200;
 
-		IGame mainGame;
-
 		float angle = 0f;
 
 		int timesCircled = -1;
@@ -65,9 +63,8 @@ namespace ClockHandle
 
 		#endregion
 
-		public HandleAnimationComponent(IGame mainGame, ISettings settings = null) : base(mainGame.MonoGame)
+		public HandleAnimationComponent(Game.IGame mainGame, ISettings settings = null) : base(mainGame)
 		{
-			this.mainGame = mainGame;
 			this.settings = settings ?? new DefaultSettings();
 		}
 
@@ -165,7 +162,7 @@ namespace ClockHandle
 		{
 			base.Draw(gameTime);
 
-			var viewportSize = mainGame.ViewportSize;
+			var viewportSize = MainGame.ViewportSize;
 			var unitSize = Math.Min(viewportSize.Width, viewportSize.Height) / 80f;
 			var handleSize = unitSize * settings.LineSize;
 			var handleOffset = unitSize * settings.LineOffset;
@@ -184,7 +181,7 @@ namespace ClockHandle
 
 					Color color = new Color(colorValue, colorValue, colorValue);
 
-					mainGame.SpriteBatch.DrawLine(
+					MainGame.SpriteBatch.DrawLine(
 						xCenter + handleOffset * (float)Math.Cos(line.angle),
 						yCenter + handleOffset * (float)Math.Sin(line.angle),
 						xCenter + (handleSize + handleOffset) * (float)Math.Cos(line.angle),

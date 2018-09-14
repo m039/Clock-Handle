@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 
-namespace ClockHandle
+namespace ClockHandle.Game
 {
 	public interface IGame
 	{

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ClockHandle.Widgets;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
@@ -8,7 +9,7 @@ namespace ClockHandle.Desktop
 	/// <summary>
 	/// This is the main type for your game.
 	/// </summary>
-	public class ClockHandleGame : Game, IGame
+	public class ClockHandleGame : Microsoft.Xna.Framework.Game, ClockHandle.Game.IGame
 	{
 		class HandleAnimationSettings : HandleAnimationComponent.ISettings
 		{
@@ -173,7 +174,7 @@ namespace ClockHandle.Desktop
 
 		public SpriteBatch SpriteBatch => spriteBatch;
 
-		public Game MonoGame => this;
+		public Microsoft.Xna.Framework.Game MonoGame => this;
 
 		public Rectangle ViewportSize => GraphicsDevice.Viewport.Bounds;
 
