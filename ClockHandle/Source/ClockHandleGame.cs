@@ -35,7 +35,7 @@ namespace ClockHandle.Desktop
 				NumberOfLines = 8,
 			};
 
-			Components.Add(new HandleAnimationComponent(this, settings));
+			Components.Add(new HandleAnimation(this, settings));
 #if true
 			Components.Add(new Sliders(this, settings));
 #endif

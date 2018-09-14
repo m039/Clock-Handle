@@ -77,7 +77,7 @@ namespace ClockHandle.Widgets
 			{
 				GridPositionX = 3,
 				GridPositionY = 1,
-				Value = (float)settings.NumberOfLines / (float)HandleAnimationComponent.MaxHandleLines * 100
+				Value = (float)settings.NumberOfLines / (float)HandleAnimation.MaxHandleLines * 100
 			});
 			grid.Widgets.Add(lineSizeSlider = new HorizontalSlider
 			{
@@ -96,7 +96,7 @@ namespace ClockHandle.Widgets
 
 			numberOfLinesSlider.ValueChanged += (sender, args) =>
 			{
-				settings.NumberOfLines = (int)(numberOfLinesSlider.Value / 100f * HandleAnimationComponent.MaxHandleLines);
+				settings.NumberOfLines = (int)(numberOfLinesSlider.Value / 100f * HandleAnimation.MaxHandleLines);
 			};
 
 			lineSizeSlider.ValueChanged += (sender, args) =>

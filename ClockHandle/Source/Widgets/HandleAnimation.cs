@@ -5,7 +5,7 @@ using MonoGame.Extended;
 
 namespace ClockHandle.Widgets
 {
-	public class HandleAnimationComponent : WidgetComponent
+	public class HandleAnimation : WidgetComponent
 	{
 
 		struct HandleLine
@@ -64,7 +64,7 @@ namespace ClockHandle.Widgets
 
 		#endregion
 
-		public HandleAnimationComponent(Game.IGame mainGame, ISettings settings = null) : base(mainGame)
+		public HandleAnimation(Game.IGame mainGame, ISettings settings = null) : base(mainGame)
 		{
 			this.settings = settings ?? new DefaultSettings();
 		}

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ClockHandle.Widgets
 {
-	public class HandleAnimationSettings : HandleAnimationComponent.ISettings
+	public class HandleAnimationSettings : HandleAnimation.ISettings
 	{
 		int numberOfLines;
 

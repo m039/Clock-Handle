@@ -47,7 +47,7 @@
     <Compile Include="Source\Program.cs" />
     <Compile Include="Source\Widgets\Sliders.cs" />
     <Compile Include="Source\Game\IGame.cs" />
-    <Compile Include="Source\Widgets\HandleAnimationComponent.cs" />
+    <Compile Include="Source\Widgets\HandleAnimation.cs" />
     <Compile Include="Source\Widgets\WidgetComponent.cs" />
     <Compile Include="Source\Widgets\HandleAnimationSettings.cs" />
   </ItemGroup>
