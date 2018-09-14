@@ -10,24 +10,28 @@ namespace ClockHandle.Desktop
 	/// </summary>
 	public class ClockHandleGame : Game, IGame
 	{
-		class TestHandleAnimationSettings : HandleAnimationComponent.ISettings
+		class HandleAnimationSettings : HandleAnimationComponent.ISettings
 		{
-			public int numberOfLines;
+			int numberOfLines;
 
 			public int NumberOfLines { get => numberOfLines; set => numberOfLines = value; }
 
-			public float LineSize => 10f;
+			float lineSize;
 
-			public float LineOffset => 5f;
+			public float LineSize { get => lineSize; set => lineSize = value; }
+
+			float lineOffset;
+
+			public float LineOffset { get => lineOffset; set => lineOffset = value; }
 		}
 
 		#region Variables
 
 		GraphicsDeviceManager graphics;
 
-		TestHandleAnimationSettings testSettings;
+		HandleAnimationSettings settings;
 
-		float testSettingsThreshold;
+		float testSettingsThreshold; // For testing purpose!
 
 		SpriteBatch spriteBatch;
 
@@ -37,12 +41,16 @@ namespace ClockHandle.Desktop
 
 		public ClockHandleGame()
 		{
-			testSettings = new TestHandleAnimationSettings();
-			testSettings.numberOfLines = 80;
-
+			handleAnimationComponent = new HandleAnimationComponent(
+				this, settings = new HandleAnimationSettings()
+				{
+					LineSize = 10f,
+					LineOffset = 5f,
+					NumberOfLines = 80,
+				}
+			);
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			handleAnimationComponent = new HandleAnimationComponent(this, testSettings);
 
 			graphics.PreferredBackBufferWidth = 500;
 			graphics.PreferredBackBufferHeight = 500;
@@ -97,6 +105,8 @@ namespace ClockHandle.Desktop
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
+			UpdateSettings(gameTime.GetElapsedSeconds());
+
 			#region Update logic
 
 			handleAnimationComponent.Update(gameTime);
@@ -104,23 +114,30 @@ namespace ClockHandle.Desktop
 			#endregion
 
 			base.Update(gameTime);
+		}
 
-			// test Settings: change a return value of NumberOfLines
-			testSettingsThreshold += gameTime.GetElapsedSeconds();
+		/// For testing purpose for now!
+		void UpdateSettings(float elapsedSeconds)
+		{
+
+			testSettingsThreshold += elapsedSeconds;
 			if (testSettingsThreshold > 2)
 			{
-				if (testSettings.numberOfLines != 15)
+				if (settings.NumberOfLines != 15)
 				{
-					testSettings.numberOfLines = 15;
+					settings.NumberOfLines = 15;
+					settings.LineSize = 10f;
+					settings.LineOffset = 5f;
 				}
 				else
 				{
-					testSettings.numberOfLines = 40;
+					settings.NumberOfLines = 40;
+					settings.LineSize = 12f;
+					settings.LineOffset = 3f;
 				}
 
 				testSettingsThreshold = 0;
 			}
-
 		}
 
 		/// <summary>
