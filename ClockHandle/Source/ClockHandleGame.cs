@@ -35,6 +35,8 @@ namespace ClockHandle.Desktop
 
 		SpriteBatch spriteBatch;
 
+		SpriteFont font;
+
 		HandleAnimationComponent handleAnimationComponent;
 
 		#endregion
@@ -51,6 +53,8 @@ namespace ClockHandle.Desktop
 			);
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
+			IsMouseVisible = true;
+			Window.AllowUserResizing = true;
 
 			graphics.PreferredBackBufferWidth = 500;
 			graphics.PreferredBackBufferHeight = 500;
@@ -84,6 +88,8 @@ namespace ClockHandle.Desktop
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// TODO: use this.Content to load your game content here
+
+			font = Content.Load<SpriteFont>("Fonts/Default Font");
 		}
 
 		/// <summary>
@@ -150,15 +156,17 @@ namespace ClockHandle.Desktop
 
 			spriteBatch.Begin();
 
-			base.Draw(gameTime);
-
 			#region Draw logic
 
 			handleAnimationComponent.Draw(gameTime);
 
+			spriteBatch.DrawString(font, "Hello", new Vector2(0, 0), Color.White);
+
 			#endregion
 
 			spriteBatch.End();
+
+			base.Draw(gameTime);
 		}
 
 		#region IGame
