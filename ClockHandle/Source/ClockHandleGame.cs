@@ -10,10 +10,24 @@ namespace ClockHandle.Desktop
 	/// </summary>
 	public class ClockHandleGame : Game, IGame
 	{
+		class TestHandleAnimationSettings : HandleAnimationComponent.ISettings
+		{
+			public int numberOfLines;
+
+			public int NumberOfLines { get => numberOfLines; set => numberOfLines = value; }
+
+			public float LineSize => 10f;
+
+			public float LineOffset => 5f;
+		}
 
 		#region Variables
 
 		GraphicsDeviceManager graphics;
+
+		TestHandleAnimationSettings testSettings;
+
+		float testSettingsThreshold;
 
 		SpriteBatch spriteBatch;
 
@@ -23,9 +37,12 @@ namespace ClockHandle.Desktop
 
 		public ClockHandleGame()
 		{
+			testSettings = new TestHandleAnimationSettings();
+			testSettings.numberOfLines = 80;
+
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			handleAnimationComponent = new HandleAnimationComponent(this);
+			handleAnimationComponent = new HandleAnimationComponent(this, testSettings);
 
 			graphics.PreferredBackBufferWidth = 500;
 			graphics.PreferredBackBufferHeight = 500;
@@ -87,6 +104,23 @@ namespace ClockHandle.Desktop
 			#endregion
 
 			base.Update(gameTime);
+
+			// test Settings: change a return value of NumberOfLines
+			testSettingsThreshold += gameTime.GetElapsedSeconds();
+			if (testSettingsThreshold > 2)
+			{
+				if (testSettings.numberOfLines != 15)
+				{
+					testSettings.numberOfLines = 15;
+				}
+				else
+				{
+					testSettings.numberOfLines = 40;
+				}
+
+				testSettingsThreshold = 0;
+			}
+
 		}
 
 		/// <summary>

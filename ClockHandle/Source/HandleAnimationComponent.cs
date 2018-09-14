@@ -47,9 +47,9 @@ namespace ClockHandle
 
 		const float WholeCirlceTime = 2.5f;
 
-		readonly float DeltaAngle;
-
 		#region Variables
+
+		const int MaxHandleLines = 200;
 
 		IGame mainGame;
 
@@ -57,33 +57,18 @@ namespace ClockHandle
 
 		int timesCircled = -1;
 
-		readonly ISettings settings;
+		int numberOfLines;
 
-		readonly HandleLine[] lines;
+		readonly HandleLine[] lines = new HandleLine[MaxHandleLines]; // Beforehand allocated array
+
+		readonly ISettings settings;
 
 		#endregion
 
 		public HandleAnimationComponent(IGame mainGame, ISettings settings = null) : base(mainGame.MonoGame)
 		{
 			this.mainGame = mainGame;
-
-			if (settings == null)
-			{
-				this.settings = new DefaultSettings();
-			}
-
-			DeltaAngle = (float)(2 * Math.PI) / this.settings.NumberOfLines;
-
-			// Constructing array of handle lines
-
-			List<HandleLine> tempLines = new List<HandleLine>();
-
-			for (float d = 0; d < 2 * Math.PI; d += DeltaAngle)
-			{
-				tempLines.Add(new HandleLine(d));
-			}
-
-			lines = tempLines.ToArray();
+			this.settings = settings ?? new DefaultSettings();
 		}
 
 		/// <summary>
@@ -124,7 +109,10 @@ namespace ClockHandle
 				angle %= (float)(2 * Math.PI);
 			}
 
-			for (int i = 0; i < lines.Length; i++)
+			CreateLinesIfNeeded();
+
+			// Update lines' model
+			for (int i = 0; i < numberOfLines; i++)
 			{
 				var line = lines[i];
 
@@ -145,6 +133,34 @@ namespace ClockHandle
 			}
 		}
 
+		void CreateLinesIfNeeded()
+		{
+			if (settings.NumberOfLines != numberOfLines &&
+				(settings.NumberOfLines > 0 && settings.NumberOfLines <= MaxHandleLines))
+			{
+				numberOfLines = settings.NumberOfLines;
+
+				// Constructing array of handle lines
+
+				var deltaAngle = (float)(2 * Math.PI) / numberOfLines;
+				int i = 0;
+
+				for (float d = 0; d < 2 * Math.PI; d += deltaAngle)
+				{
+					var handleLine = new HandleLine(d);
+
+					// Mark already visited lines
+					if (d < angle)
+					{
+						handleLine.timesVisited = timesCircled;
+					}
+
+					lines[i++] = handleLine;
+				}
+
+			}
+		}
+
 		public override void Draw(GameTime gameTime)
 		{
 			base.Draw(gameTime);
@@ -157,8 +173,10 @@ namespace ClockHandle
 			var yCenter = viewportSize.Height / 2f;
 
 			// Draw lines
-			foreach (var line in lines)
+			for (int i = 0; i < numberOfLines; i++)
 			{
+				var line = lines[i];
+
 				float colorValue = line.relativeTimeToLive;
 				if (colorValue > 0)
 				{
