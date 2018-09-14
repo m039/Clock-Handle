@@ -1,34 +1,49 @@
 ﻿using ClockHandle.Game;
 using Microsoft.Xna.Framework;
-using Myra.Graphics2D.Text;
+using Myra.Graphics2D.UI;
 
 namespace ClockHandle.Widgets
 {
 	public class Sliders : WidgetComponent
 	{
-		FormattedText _formattedText;
+		Myra.Graphics2D.UI.Desktop _host;
 
 		public Sliders(IGame mainGame) : base(mainGame)
 		{
-		}
-
-		public override void Draw(GameTime gameTime)
-		{
-			base.Draw(gameTime);
-
-			_formattedText.Draw(MainGame.SpriteBatch, Point.Zero, Color.LightBlue);
 		}
 
 		protected override void LoadContent()
 		{
 			base.LoadContent();
 
-			_formattedText = new FormattedText
+			var grid = new Grid
 			{
-				Font = MainGame.DefaultFont,
-				Text = "Hello",
-				Width = 500
+				RowSpacing = 8,
+				ColumnSpacing = 8
 			};
+
+			grid.ColumnsProportions.Add(new Grid.Proportion(Grid.ProportionType.Auto));
+			grid.RowsProportions.Add(new Grid.Proportion(Grid.ProportionType.Auto));
+			grid.RowsProportions.Add(new Grid.Proportion(Grid.ProportionType.Auto));
+
+			var helloWorld = new TextBlock
+			{
+				Text = "Hello, World!"
+			};
+			grid.Widgets.Add(helloWorld);
+			grid.Widgets.Add(helloWorld);
+			grid.Widgets.Add(helloWorld);
+
+			_host = new Myra.Graphics2D.UI.Desktop();
+			_host.Widgets.Add(grid);
+		}
+
+		public override void Draw(GameTime gameTime)
+		{
+			base.Draw(gameTime);
+
+			_host.Bounds = new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+			_host.Render();
 		}
 	}
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using Myra;
 using Myra.Graphics2D.Text;
 
 namespace ClockHandle.Desktop
@@ -38,25 +39,22 @@ namespace ClockHandle.Desktop
 
 		SpriteBatch spriteBatch;
 
-		WidgetComponent[] widgets;
-
 		SpriteFont font;
 
 		#endregion
 
 		public ClockHandleGame()
 		{
-			widgets = new WidgetComponent[2];
-
-			widgets[0] = new HandleAnimationComponent(
+			Components.Add(new HandleAnimationComponent(
 				this, settings = new HandleAnimationSettings()
 				{
 					LineSize = 10f,
 					LineOffset = 5f,
 					NumberOfLines = 80,
 				}
-			);
-			widgets[1] = new Sliders(this);
+			));
+
+			Components.Add(new Sliders(this));
 
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
@@ -76,16 +74,7 @@ namespace ClockHandle.Desktop
 		/// </summary>
 		protected override void Initialize()
 		{
-			LoadFont();
-
-			#region Initialization logic
-
-			foreach (var w in widgets)
-			{
-				w.Initialize();
-			}
-
-			#endregion
+			MyraEnvironment.Game = this;
 
 			base.Initialize();
 		}
@@ -96,8 +85,12 @@ namespace ClockHandle.Desktop
 		/// </summary>
 		protected override void LoadContent()
 		{
+			LoadFont();
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
+			base.LoadContent();
 		}
 
 		void LoadFont()
@@ -125,15 +118,6 @@ namespace ClockHandle.Desktop
 				Exit();
 
 			UpdateSettings(gameTime.GetElapsedSeconds());
-
-			#region Update logic
-
-			foreach (var w in widgets)
-			{
-				w.Update(gameTime);
-			}
-
-			#endregion
 
 			base.Update(gameTime);
 		}
@@ -174,16 +158,11 @@ namespace ClockHandle.Desktop
 
 			spriteBatch.Begin();
 
-			foreach (var w in widgets)
-			{
-				w.Draw(gameTime);
-			}
+			base.Draw(gameTime);
 
 			spriteBatch.End();
 
 			#endregion
-
-			base.Draw(gameTime);
 		}
 
 		#region IGame
