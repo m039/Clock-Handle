@@ -38,7 +38,7 @@ namespace ClockHandle
 
 		public class DefaultSettings : ISettings
 		{
-			public int NumberOfLines => 60;
+			public int NumberOfLines => 20;
 
 			public float LineSize => 10f;
 
@@ -84,6 +84,30 @@ namespace ClockHandle
 			}
 
 			lines = tempLines.ToArray();
+		}
+
+		/// <summary>
+		/// This function is for smoothing (or adding) fade in or fade out animation.
+		/// </summary>
+		static float Interpolate(float value)
+		{
+#if false
+			value = 1 - value;
+			const float pivotValue = 0.0f;
+
+			if (value < pivotValue)
+			{
+				return MathHelper.SmoothStep(0f, 1f, value / pivotValue);
+			}
+			else
+			{
+				return MathHelper.SmoothStep(1f, 0f, (value - pivotValue) / (1 - pivotValue));
+			}
+#elif true
+			return MathHelper.SmoothStep(0f, 1f, value);
+#else
+			return value;
+#endif
 		}
 
 		public override void Update(GameTime gameTime)
@@ -132,12 +156,14 @@ namespace ClockHandle
 			var xCenter = viewportSize.Width / 2f;
 			var yCenter = viewportSize.Height / 2f;
 
-			// Draw lines all together
+			// Draw lines
 			foreach (var line in lines)
 			{
 				float colorValue = line.relativeTimeToLive;
 				if (colorValue > 0)
 				{
+					colorValue = Interpolate(colorValue);
+
 					Color color = new Color(colorValue, colorValue, colorValue);
 
 					mainGame.SpriteBatch.DrawLine(

@@ -112,7 +112,7 @@ namespace ClockHandle.Desktop
 
 		#region IGame
 
-		public SpriteBatch SpriteBatch { get => spriteBatch; }
+		public SpriteBatch SpriteBatch => spriteBatch;
 
 		public Game MonoGame => this;
 
