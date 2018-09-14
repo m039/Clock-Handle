@@ -12,5 +12,7 @@ namespace ClockHandle.Game
 		SpriteBatch SpriteBatch { get; }
 
 		Rectangle ViewportSize { get; }
+
+		SpriteFont DefaultFont { get; }
 	}
 }

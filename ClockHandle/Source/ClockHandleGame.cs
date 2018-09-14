@@ -36,15 +36,17 @@ namespace ClockHandle.Desktop
 
 		SpriteBatch spriteBatch;
 
-		SpriteFont font;
+		WidgetComponent[] widgets;
 
-		HandleAnimationComponent handleAnimationComponent;
+		SpriteFont font;
 
 		#endregion
 
 		public ClockHandleGame()
 		{
-			handleAnimationComponent = new HandleAnimationComponent(
+			widgets = new WidgetComponent[2];
+
+			widgets[0] = new HandleAnimationComponent(
 				this, settings = new HandleAnimationSettings()
 				{
 					LineSize = 10f,
@@ -52,6 +54,8 @@ namespace ClockHandle.Desktop
 					NumberOfLines = 80,
 				}
 			);
+			widgets[1] = new Slider(this);
+
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
@@ -72,7 +76,10 @@ namespace ClockHandle.Desktop
 		{
 			#region Initialization logic
 
-			handleAnimationComponent.Initialize();
+			foreach (var w in widgets)
+			{
+				w.Initialize();
+			}
 
 			#endregion
 
@@ -88,7 +95,7 @@ namespace ClockHandle.Desktop
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
+			// Load font
 
 			font = Content.Load<SpriteFont>("Fonts/Default Font");
 		}
@@ -116,7 +123,10 @@ namespace ClockHandle.Desktop
 
 			#region Update logic
 
-			handleAnimationComponent.Update(gameTime);
+			foreach (var w in widgets)
+			{
+				w.Update(gameTime);
+			}
 
 			#endregion
 
@@ -159,9 +169,10 @@ namespace ClockHandle.Desktop
 
 			#region Draw logic
 
-			handleAnimationComponent.Draw(gameTime);
-
-			spriteBatch.DrawString(font, "Hello", new Vector2(0, 0), Color.White);
+			foreach (var w in widgets)
+			{
+				w.Draw(gameTime);
+			}
 
 			#endregion
 
@@ -177,6 +188,8 @@ namespace ClockHandle.Desktop
 		public Microsoft.Xna.Framework.Game MonoGame => this;
 
 		public Rectangle ViewportSize => GraphicsDevice.Viewport.Bounds;
+
+		public SpriteFont DefaultFont => font;
 
 		#endregion
 	}
