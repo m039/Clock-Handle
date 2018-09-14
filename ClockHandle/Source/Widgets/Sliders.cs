@@ -83,13 +83,13 @@ namespace ClockHandle.Widgets
 			{
 				GridPositionX = 3,
 				GridPositionY = 2,
-				Value = settings.LineOffset / MaxLineOffset * 100
+				Value = settings.LineSize / MaxLineOffset * 100
 			});
 			grid.Widgets.Add(lineOffsetSlider = new HorizontalSlider
 			{
 				GridPositionX = 3,
 				GridPositionY = 3,
-				Value = settings.LineSize / MaxLineSize * 100
+				Value = settings.LineOffset / MaxLineSize * 100
 			});
 
 			// Attach events to sliders

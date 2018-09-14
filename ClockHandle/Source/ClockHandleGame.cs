@@ -36,7 +36,9 @@ namespace ClockHandle.Desktop
 			};
 
 			Components.Add(new HandleAnimationComponent(this, settings));
+#if true
 			Components.Add(new Sliders(this, settings));
+#endif
 
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
