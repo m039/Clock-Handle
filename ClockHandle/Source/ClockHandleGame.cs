@@ -14,28 +14,11 @@ namespace ClockHandle.Desktop
 	/// </summary>
 	public class ClockHandleGame : Microsoft.Xna.Framework.Game, ClockHandle.Game.IGame
 	{
-		class HandleAnimationSettings : HandleAnimationComponent.ISettings
-		{
-			int numberOfLines;
-
-			public int NumberOfLines { get => numberOfLines; set => numberOfLines = value; }
-
-			float lineSize;
-
-			public float LineSize { get => lineSize; set => lineSize = value; }
-
-			float lineOffset;
-
-			public float LineOffset { get => lineOffset; set => lineOffset = value; }
-		}
-
 		#region Variables
 
 		GraphicsDeviceManager graphics;
 
 		HandleAnimationSettings settings;
-
-		float testSettingsThreshold; // For testing purpose!
 
 		SpriteBatch spriteBatch;
 
@@ -45,16 +28,15 @@ namespace ClockHandle.Desktop
 
 		public ClockHandleGame()
 		{
-			Components.Add(new HandleAnimationComponent(
-				this, settings = new HandleAnimationSettings()
-				{
-					LineSize = 10f,
-					LineOffset = 5f,
-					NumberOfLines = 80,
-				}
-			));
+			settings = new HandleAnimationSettings()
+			{
+				LineSize = 10f,
+				LineOffset = 5f,
+				NumberOfLines = 8,
+			};
 
-			Components.Add(new Sliders(this));
+			Components.Add(new HandleAnimationComponent(this, settings));
+			Components.Add(new Sliders(this, settings));
 
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
@@ -89,7 +71,6 @@ namespace ClockHandle.Desktop
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
 			base.LoadContent();
 		}
 
@@ -117,33 +98,7 @@ namespace ClockHandle.Desktop
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			UpdateSettings(gameTime.GetElapsedSeconds());
-
 			base.Update(gameTime);
-		}
-
-		/// For testing purpose for now!
-		void UpdateSettings(float elapsedSeconds)
-		{
-
-			testSettingsThreshold += elapsedSeconds;
-			if (testSettingsThreshold > 2)
-			{
-				if (settings.NumberOfLines != 15)
-				{
-					settings.NumberOfLines = 15;
-					settings.LineSize = 10f;
-					settings.LineOffset = 5f;
-				}
-				else
-				{
-					settings.NumberOfLines = 40;
-					settings.LineSize = 12f;
-					settings.LineOffset = 3f;
-				}
-
-				testSettingsThreshold = 0;
-			}
 		}
 
 		/// <summary>

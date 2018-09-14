@@ -49,6 +49,7 @@
     <Compile Include="Source\Game\IGame.cs" />
     <Compile Include="Source\Widgets\HandleAnimationComponent.cs" />
     <Compile Include="Source\Widgets\WidgetComponent.cs" />
+    <Compile Include="Source\Widgets\HandleAnimationSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

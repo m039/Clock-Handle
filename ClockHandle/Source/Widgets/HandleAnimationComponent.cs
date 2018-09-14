@@ -28,11 +28,12 @@ namespace ClockHandle.Widgets
 			}
 		}
 
-		/// todo: move this value into GUI
 		public interface ISettings
 		{
 			int NumberOfLines { get; }
+
 			float LineSize { get; }
+
 			float LineOffset { get; }
 		}
 
@@ -49,7 +50,7 @@ namespace ClockHandle.Widgets
 
 		#region Variables
 
-		const int MaxHandleLines = 200;
+		public const int MaxHandleLines = 200;
 
 		float angle = 0f;
 
