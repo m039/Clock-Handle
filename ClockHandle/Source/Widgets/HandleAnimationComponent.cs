@@ -163,7 +163,7 @@ namespace ClockHandle.Widgets
 			base.Draw(gameTime);
 
 			var viewportSize = MainGame.ViewportSize;
-			var unitSize = Math.Min(viewportSize.Width, viewportSize.Height) / 80f;
+			var unitSize = MainGame.UnitSize;
 			var handleSize = unitSize * settings.LineSize;
 			var handleOffset = unitSize * settings.LineOffset;
 			var xCenter = viewportSize.Width / 2f;

@@ -14,5 +14,8 @@ namespace ClockHandle.Game
 		Rectangle ViewportSize { get; }
 
 		SpriteFont DefaultFont { get; }
+
+		// A unit by which size of any widget measured.
+		float UnitSize { get; }
 	}
 }

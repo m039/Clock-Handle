@@ -45,22 +45,28 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\ClockHandleGame.cs" />
     <Compile Include="Source\Program.cs" />
-    <Compile Include="Source\Widgets\Slider.cs" />
+    <Compile Include="Source\Widgets\Sliders.cs" />
     <Compile Include="Source\Game\IGame.cs" />
     <Compile Include="Source\Widgets\HandleAnimationComponent.cs" />
     <Compile Include="Source\Widgets\WidgetComponent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Extended">
       <HintPath>..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Myra">
+      <HintPath>..\packages\Myra.0.6.7.133\lib\net45\Myra.dll</HintPath>
+    </Reference>
+    <Reference Include="Myra.Content.Pipeline">
+      <HintPath>..\packages\Myra.Content.Pipeline.0.5.6.113\lib\net45\Myra.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +121,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="MonoGame.Framework.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\" />

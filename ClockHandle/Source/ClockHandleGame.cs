@@ -1,8 +1,10 @@
-﻿using ClockHandle.Widgets;
+﻿using System;
+using ClockHandle.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using Myra.Graphics2D.Text;
 
 namespace ClockHandle.Desktop
 {
@@ -54,7 +56,7 @@ namespace ClockHandle.Desktop
 					NumberOfLines = 80,
 				}
 			);
-			widgets[1] = new Slider(this);
+			widgets[1] = new Sliders(this);
 
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
@@ -74,6 +76,8 @@ namespace ClockHandle.Desktop
 		/// </summary>
 		protected override void Initialize()
 		{
+			LoadFont();
+
 			#region Initialization logic
 
 			foreach (var w in widgets)
@@ -94,9 +98,10 @@ namespace ClockHandle.Desktop
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+		}
 
-			// Load font
-
+		void LoadFont()
+		{
 			font = Content.Load<SpriteFont>("Fonts/Default Font");
 		}
 
@@ -165,18 +170,18 @@ namespace ClockHandle.Desktop
 		{
 			GraphicsDevice.Clear(Color.Black);
 
-			spriteBatch.Begin();
-
 			#region Draw logic
+
+			spriteBatch.Begin();
 
 			foreach (var w in widgets)
 			{
 				w.Draw(gameTime);
 			}
 
-			#endregion
-
 			spriteBatch.End();
+
+			#endregion
 
 			base.Draw(gameTime);
 		}
@@ -190,6 +195,15 @@ namespace ClockHandle.Desktop
 		public Rectangle ViewportSize => GraphicsDevice.Viewport.Bounds;
 
 		public SpriteFont DefaultFont => font;
+
+		public float UnitSize
+		{
+			get
+			{
+				var viewportSize = ViewportSize;
+				return Math.Min(viewportSize.Width, viewportSize.Height) / 80f;
+			}
+		}
 
 		#endregion
 	}
